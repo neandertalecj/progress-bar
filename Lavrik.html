@@ -1,0 +1,105 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<style>
+			.sample{
+				margin: 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="sample">
+			<h2>Profit: {{profit}}</h2>
+			<br>
+			<app-progress v-bind:val="profit" v-bind:max="maxScore"></app-progress><br> 
+			<button 
+				v-on:click="addN()" 
+				v-bind:disabled="numbers.length>=maxNumber"
+				class="btn btn-success"
+			>Add number</button>
+			<br> <br>
+			<app-progress v-bind:val="numbers.length" v-bind:max="maxNumber"></app-progress>
+			<ul>
+				<li v-for="number in numbers">{{number}}</li>
+			</ul>
+
+			<form class="border m-2 p-2" :class="typeJob == 'list' ? 'border-primary' : 'border-danger'">
+				<div class="form-row">
+					<div class="form-group">
+						<input type="radio" name="type" v-model="typeJob" value="list" :cheked="typeJob == 'list'">Список
+						<input type="radio" name="type" v-model="typeJob" value="search" :cheked="typeJob == 'search'">Пошук
+					</div>
+				</div>
+			</form>
+			
+
+		</div>
+		<div id='element'>
+			
+		</div>
+	</body>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script>
+		var elem = document.getElementById('element');
+		var city = ['Kiev', 'Dolina', 'Lviv'];
+		var people = [8, 0.02, 2];
+		for(var i=0; i < city.length; i++){
+			var a = city[i] + " - " + people[i] +"mln." + "<br>";
+			elem.innerHTML += (a);
+		}
+	</script>
+	
+
+	<script>
+	Vue.component('appProgress',{
+		props: {
+			val: Number,
+			max: Number
+		},
+		computed: {
+			width(){
+				let w = this.val/this.max * 100;
+				return {
+					width: w + '%'
+				}
+			}
+		},
+		template: `
+		<div class="progress">
+			<div class="progress-bar" v-bind:style="width"></div>
+		</div>
+		`
+	});
+
+		var sample = new Vue({
+			el: '.sample',
+			data: {
+				numbers: [],
+				maxNumber: 10,
+				maxScore: 15,
+				typeJob: 'list'
+			},
+			methods: {
+				addN(){
+					let rnd = Math.floor(Math.random() * 11) - 5
+					this.numbers.push(rnd);
+				}
+			},
+			computed: {
+				profit(){
+					let profit = 0;
+					for(let i=0; i<this.numbers.length; i++){
+						profit += this.numbers[i];
+					}
+					return profit;
+				}
+			}
+		})
+	</script>
+</html>
