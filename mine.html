@@ -18,15 +18,17 @@
 			<progress-bar
 				v-bind:val="profit"
 				v-bind:max="maxScore"
+				title="Profit"
 			></progress-bar> <br>
 			<button 
 				class="btn btn-success"
-				v-bind:disabled="numbers.length>=maxScore"
+				v-bind:disabled="seen"
 				v-on:click="addNewNumber"
 			>Add new number</button> <br> <br>
 			<progress-bar 
 				v-bind:val="numbers.length"
 				v-bind:max="maxScore"
+				title="Number of implementation"
 			></progress-bar> <br><br>
 			<ul>
 				<li v-for="number in numbers">{{number}}</li>
@@ -44,16 +46,23 @@
 		Vue.component('progress-bar', {
 			props: [
 				'val', 
-				'max'
+				'max',
+				'title'
 			],
 			template: `
-				<div class="progress">
-					<div class="progress-bar" v-bind:style="width"></div>				
+				<div>
+					<h4>{{title}}:</h4>
+					<div class="progress">
+						<div class="progress-bar" v-bind:style="width"></div>			
+					</div>
 				</div>
 			`,
 			computed: {
 				width(){
 					var w = this.val/this.max * 100
+					if (w<0){
+						w = 0;
+					}
 					return {
 						width: w + '%'
 					}
@@ -74,11 +83,20 @@
 			},
 			computed: {
 				profit(){
-					var profit = 0;
+					var profit = 0; //!!!!
 					for(var i=0; i<this.numbers.length; i++){
 						profit += this.numbers[i]; 
 					}
+					if( profit >= this.maxScore ){
+						alert('Hello');
+					}
 					return profit
+				},
+				seen(){
+					if( this.numbers.length >= this.maxScore ||
+						this.profit >= this.maxScore ){
+						return seen = true
+					}
 				}
 			}
 		})
