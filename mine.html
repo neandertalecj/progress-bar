@@ -88,6 +88,7 @@
 				profit() {
 					// Summation:
 					const profit = this.numbers.reduce(($, number) => $ + number, 0);
+					
 					if (profit >= this.maxScore) {
 						// FIXME rewrite alert with modal: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
 						alert('Hello');
@@ -99,8 +100,9 @@
 						this.numbers.length >= this.maxScore ||
 						this.profit >= this.maxScore
 					) {
-						// FIXME why assigning value to `seen`?
-						return seen = true;
+						return true
+					}else{
+						return false
 					}
 				},
 			},
