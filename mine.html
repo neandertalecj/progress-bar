@@ -87,11 +87,10 @@
 			computed: {
 				profit() {
 					// Summation:
-					const profit = this.numbers.reduce(($, number) => $ + number, 0);
-					
+					const profit = this.numbers.reduce((sum, current) => sum + current, 0);
+
 					if (profit >= this.maxScore) {
-						// FIXME rewrite alert with modal: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
-						alert('Hello');
+						setTimeout(function(){alert("You're winner")}, 1000);
 					}
 					return profit;
 				},
